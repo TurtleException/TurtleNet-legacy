@@ -18,4 +18,26 @@
           \  EXC )
             lU lU
     -->
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>TurtleException</name>
+            <email>turtle.exception@eldritch.de</email>
+            <organization>de.turtle_exception</organization>
+            <organizationUrl>https://github.com/TurtleException/TurtleNet</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/TurtleException/TurtleNet.git</connection>
+        <developerConnection>scm:git:ssh://github.com:TurtleException/TurtleNet.git</developerConnection>
+        <url>http://github.com/TurtleException/TurtleNet</url>
+    </scm>
 </project>
