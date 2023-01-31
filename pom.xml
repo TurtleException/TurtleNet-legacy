@@ -58,7 +58,8 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>de.turtle_exception.turtlenet.entrypoints.Main</mainClass>
+                            <!-- The jar can be used as a standalone application -->
+                            <mainClass>de.turtle_exception.turtlenet.entrypoints.Standalone</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
