@@ -11,12 +11,15 @@ import java.lang.annotation.Target;
  * An annotation that may be added with a {@link Field} annotation to mark a resource field as a reference to another
  * resource. If the field contains an object of the type of that resource (as opposed to its id), this annotation is not
  * required and its effect is implied. If it is present nonetheless, it will be ignored.
- * <p> If this annotation is combined with a {@link Collection} annotation it is implied that each element of the
+ * <p> If this annotation is combined with a {@link FieldCollection} annotation it is implied that each element of the
  * collection is a reference to an entity of said resource.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD})
 public @interface Reference {
-    /** Path of the resource this  */
+    /** Path of the resource this. */
     @NotNull String to();
+
+    /** Whether the referenced resource should be stored as a JSON string. */
+    boolean nested() default false;
 }
