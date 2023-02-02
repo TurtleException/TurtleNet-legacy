@@ -1,0 +1,40 @@
+# A list of tokens of all remote clients this client should connect to, to establish a network. This list will be shared
+# with all remote clients to ensure network integrity in case the local client disconnects.
+# If this list is empty the local client will not listen for connections unless specified otherwise by 'listenIfSingle'.
+network: [ ]
+
+# The local port that should be used to listen to connections. If 'network' is an empty array and 'listenIfSingle' is
+# set to false, this setting is redundant.
+# Note that each client on one machine needs a dedicated port.
+port: 8346
+
+# If true, the local client will listen for connections, even if no remote clients are listed in 'network'. This is
+# false by default for security reasons.
+listenIfSingle: false
+
+# If true, things like login information for the database are shared with all clients in the TurtleNet. This may be
+# useful if this client might disconnect but the access to third party services that this client manged should continue.
+# In that case a different client will take over until this client is back online.
+# Note that this setting only applies locally. This client may still receive and use such data from other clients.
+shareCredentials: true
+
+# If true, this client may offer its resources to other clients of the same TurtleNet. This means that if another client
+# disconnects and has 'shareCredentials' set to true, this client may take over its responsibilities.
+offerResources: true
+
+# Database information, if applicable.
+# Note that if a network does not have at least one client with a database connection, no data will be stored
+# permanently and all data will be lost after the last active client shuts down.
+database:
+  # Whether to enable a database connection by default. This setting does not affect actions caused by 'offerResources'.
+  enable: false
+  # Type of database. Please fill out any necessary information under the according label.
+  # For now, MySQL ('mysql') is the only available mode.
+  mode: mysql
+  # Credentials of a MySQL database connection.
+  mysql:
+    host: 127.0.0.1
+    port: 3306
+    database: turtlenet
+    login: USERNAME
+    pass: PASSWORD
