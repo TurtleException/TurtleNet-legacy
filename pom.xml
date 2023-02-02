@@ -95,6 +95,17 @@
                 </executions>
             </plugin>
         </plugins>
+
+        <resources>
+            <!-- Write version into resource file -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>version.properties</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
     <repositories>
