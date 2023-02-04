@@ -12,12 +12,15 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 /** Standalone Entrypoint. */
 final class Standalone {
+    private static final String[] SHUTDOWN_COMMANDS = {"shutdown", "stop", "quit", "end"};
+
     /** Called by the JVM. */
-    public static void main(String[] args) throws TurtleException, URISyntaxException {
+    public static void main(String[] args) throws TurtleException, URISyntaxException, IOException {
         System.out.print("Starting TurtleClient");
         System.out.println(" v" + TurtleClientImpl.VERSION);
 
@@ -42,8 +45,23 @@ final class Standalone {
 
         builder.setLogger(logger);
         builder.setDataFolder(dataFolder);
-        builder.build();
 
-        // TODO: listen for input
+        TurtleClient client = builder.build();
+
+
+        // await shutdown command
+        Scanner scanner = new Scanner(System.in);
+
+        while (scanner.hasNextLine()) {
+            String in = scanner.nextLine();
+
+            for (String cmd : SHUTDOWN_COMMANDS)
+                if (in.equalsIgnoreCase(cmd))
+                    break;
+
+            System.out.println("Unknown command: " + in);
+        }
+
+        client.shutdown();
     }
 }
