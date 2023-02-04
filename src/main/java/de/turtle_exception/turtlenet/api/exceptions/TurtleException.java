@@ -8,6 +8,10 @@ import de.turtle_exception.turtlenet.api.TurtleClientBuilder;
  * to an internal exception.
  */
 public class TurtleException extends Exception {
+    public TurtleException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public TurtleException(Throwable cause) {
         super(cause);
     }

@@ -1,6 +1,7 @@
 package de.turtle_exception.turtlenet.core;
 
 import de.turtle_exception.fancyformat.FancyFormatter;
+import de.turtle_exception.turtlenet.api.Configuration;
 import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.TurtleClientBuilder;
 import de.turtle_exception.turtlenet.api.entities.Turtle;
@@ -8,6 +9,7 @@ import de.turtle_exception.turtlenet.core.util.TurtleSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
@@ -57,6 +59,14 @@ public class TurtleClientImpl implements TurtleClient {
     /** The root logger of this client. */
     private final Logger logger;
 
+    /** Configuration specs for this instance. */
+    private final Configuration config;
+
+    /** Working directory. */
+    private final File dataFolder;
+    /** Code source. */
+    private final File jarFile;
+
     /** The FancyFormatter instance that will be used from all parts of the API. */
     private final FancyFormatter formatter;
 
@@ -64,10 +74,14 @@ public class TurtleClientImpl implements TurtleClient {
     private final TurtleSet<Turtle> cache = new TurtleSet<>();
 
     /** It is not recommended to use this constructor directly. Please refer to {@link TurtleClientBuilder} if possible. */
-    public TurtleClientImpl(Logger logger) {
+    public TurtleClientImpl(@NotNull Logger logger, @NotNull Configuration config, @NotNull File dataFolder, @NotNull File jarFile) {
         this.logger = logger;
 
         this.logger.log(Level.INFO, "Hello there");
+
+        this.config = config;
+        this.dataFolder = dataFolder;
+        this.jarFile = jarFile;
 
         this.formatter = new FancyFormatter();
 
@@ -87,6 +101,21 @@ public class TurtleClientImpl implements TurtleClient {
     @Override
     public int[] getVersions() {
         return Arrays.copyOf(VERSIONS, VERSIONS.length);
+    }
+
+    @Override
+    public @NotNull Configuration getConfig() {
+        return config;
+    }
+
+    @Override
+    public @NotNull File getDataFolder() {
+        return dataFolder;
+    }
+
+    @Override
+    public @NotNull File getJarFile() {
+        return jarFile;
     }
 
     @Override

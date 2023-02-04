@@ -4,8 +4,13 @@ import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.TurtleClientBuilder;
 import de.turtle_exception.turtlenet.api.exceptions.TurtleException;
 import net.md_5.bungee.api.plugin.Plugin;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 
 /**
@@ -22,8 +27,19 @@ final class BungeeCord extends Plugin {
     public void onEnable() {
         // initialize in onEnable (as opposed to onLoad) because of possible duplicate jars
 
-        TurtleClientBuilder builder = new TurtleClientBuilder();
+        // save default config
+        File configFile = new File(getDataFolder(), "config.yml");
+        try (InputStream configStream = getResourceAsStream("config.yml")) {
+            if (!configFile.exists())
+                Files.copy(configStream, Path.of(configFile.toURI()));
+        } catch (IOException e) {
+            throw new RuntimeException("Could not save default config!", e);
+        }
 
+        YamlConfiguration   config  = YamlConfiguration.loadConfiguration(configFile);
+        TurtleClientBuilder builder = new TurtleClientBuilder(config);
+
+        builder.setDataFolder(this.getDataFolder());
         builder.setLogger(this.getLogger());
         this.getLogger().setLevel(Level.WARNING);
 

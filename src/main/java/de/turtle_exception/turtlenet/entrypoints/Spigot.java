@@ -20,9 +20,11 @@ final class Spigot extends JavaPlugin {
     @Override
     public void onEnable() {
         // initialize in onEnable (as opposed to onLoad) because of possible duplicate jars
+        this.saveDefaultConfig();
 
-        TurtleClientBuilder builder = new TurtleClientBuilder();
+        TurtleClientBuilder builder = new TurtleClientBuilder(getConfig());
 
+        builder.setDataFolder(this.getDataFolder());
         builder.setLogger(this.getLogger());
         this.getLogger().setLevel(Level.WARNING);
 

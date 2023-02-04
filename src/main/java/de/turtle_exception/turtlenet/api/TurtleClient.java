@@ -18,6 +18,7 @@ import de.turtle_exception.turtlenet.core.util.logging.SimpleFormatter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -39,6 +40,15 @@ public interface TurtleClient extends TurtleContainer<Turtle> {
 
     /** Returns the version of this application as an array of integers, starting with the most major version. */
     int[] getVersions();
+
+    /** Returns the configuration specifications for this instance. */
+    @NotNull Configuration getConfig();
+
+    /** Returns the working directory of this instance. */
+    @NotNull File getDataFolder();
+
+    /** Return the source JAR-File of this application. */
+    @NotNull File getJarFile();
 
     /**
      * Return the {@link FancyFormatter} of this TurtleClient. This formatter is used globally. Any modifications to it

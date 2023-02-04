@@ -26,15 +26,13 @@ offerResources: true
 # Note that if a network does not have at least one client with a database connection, no data will be stored
 # permanently and all data will be lost after the last active client shuts down.
 database:
-  # Whether to enable a database connection by default. This setting does not affect actions caused by 'offerResources'.
-  enable: false
-  # Type of database. Please fill out any necessary information under the according label.
-  # For now, MySQL ('mysql') is the only available mode.
-  mode: mysql
-  # Credentials of a MySQL database connection.
   mysql:
-    host: 127.0.0.1
-    port: 3306
-    database: turtlenet
-    login: USERNAME
-    pass: PASSWORD
+    # Whether to enable a MySQL database connection by default. This setting does not affect actions caused by 'offerResources'.
+    enable: false
+    # Credentials of a MySQL database connection.
+    credentials:
+      host: 127.0.0.1
+      port: 3306
+      database: turtlenet
+      login: USERNAME
+      pass: PASSWORD
