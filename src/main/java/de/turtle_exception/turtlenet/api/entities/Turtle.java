@@ -44,6 +44,8 @@ public abstract class Turtle /* do not extend or literally everything will break
 
         // validates that 'resource' inherits all parents' resource of this instance
         ResourceUtil.validateResource(this.getClass(), resource);
+
+        // TODO: register to client
     }
 
     /**

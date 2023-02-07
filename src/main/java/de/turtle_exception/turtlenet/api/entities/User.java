@@ -38,7 +38,7 @@ public class User extends Turtle implements MessageAuthor {
 
     @SuppressWarnings("unchecked")
     public @NotNull Set<Long> getGroupIds() {
-        return this.entity.get("groups", Set.class);
+        return Set.copyOf(this.entity.get("groups", Set.class));
     }
 
     public @NotNull Set<Group> getGroups() {
@@ -51,7 +51,7 @@ public class User extends Turtle implements MessageAuthor {
      */
     @SuppressWarnings("unchecked")
     public @NotNull List<Long> getDiscordIds() {
-        return this.entity.get("discord", List.class);
+        return List.copyOf(this.entity.get("discord", List.class));
     }
 
     /**
@@ -60,6 +60,6 @@ public class User extends Turtle implements MessageAuthor {
      */
     @SuppressWarnings("unchecked")
     public @NotNull List<UUID> getMinecraftIds() {
-        return this.entity.get("minecraft", List.class);
+        return List.copyOf(this.entity.get("minecraft", List.class));
     }
 }

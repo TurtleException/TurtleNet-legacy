@@ -2,10 +2,10 @@ package de.turtle_exception.turtlenet.api.entities;
 
 import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.entities.attributes.TurtleContainer;
-import de.turtle_exception.turtlenet.api.resource.fields.Field;
 import de.turtle_exception.turtlenet.api.resource.JsonSerializer;
 import de.turtle_exception.turtlenet.api.resource.Resource;
 import de.turtle_exception.turtlenet.api.resource.fields.CollectionField;
+import de.turtle_exception.turtlenet.api.resource.fields.Field;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ public class Group extends Turtle implements TurtleContainer<User> {
      * Uniqueness can only be checked by {@link Group#getId()}.
      * @return The Group name.
      */
-    public @NotNull String getName() {
+    public final @NotNull String getName() {
         return this.entity.get("name", String.class);
     }
 
@@ -53,8 +53,8 @@ public class Group extends Turtle implements TurtleContainer<User> {
      * @return List of members.
      */
     @SuppressWarnings("unchecked")
-    public @NotNull Set<Long> getUserIds() {
-        return this.entity.get("users", Set.class);
+    public final @NotNull Set<Long> getUserIds() {
+        return Set.copyOf(this.entity.get("users", Set.class));
     }
 
     public @NotNull Set<User> getUsers() {

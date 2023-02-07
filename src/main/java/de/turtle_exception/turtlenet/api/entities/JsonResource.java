@@ -36,7 +36,7 @@ public class JsonResource extends Turtle implements EphemeralType {
      * parsing this JsonResource should be prepared for possible identifier collisions by properly handling exceptions.
      * @return String identifying the nature of this JsonResource.
      */
-    public @NotNull String getIdentifier() {
+    public final @NotNull String getIdentifier() {
         return this.entity.get("identifier", String.class);
     }
 
@@ -45,7 +45,7 @@ public class JsonResource extends Turtle implements EphemeralType {
      * {@link JsonArray} for most use-cases of this resource.
      * @return The underlying JSON data.
      */
-    public @NotNull JsonElement getContent() {
+    public final @NotNull JsonElement getContent() {
         return this.entity.get("content", JsonElement.class);
     }
 
