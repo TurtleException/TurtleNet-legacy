@@ -1,26 +1,41 @@
 package de.turtle_exception.turtlenet.api.entities.chat;
 
 import de.turtle_exception.fancyformat.FormatText;
-import de.turtle_exception.turtlenet.api.annotations.Field;
-import de.turtle_exception.turtlenet.api.annotations.FieldMap;
-import de.turtle_exception.turtlenet.api.annotations.Reference;
-import de.turtle_exception.turtlenet.api.annotations.Resource;
+import de.turtle_exception.turtlenet.api.TurtleClient;
+import de.turtle_exception.turtlenet.api.exceptions.ResourceInheritanceException;
+import de.turtle_exception.turtlenet.api.resource.JsonSerializer;
+import de.turtle_exception.turtlenet.api.resource.Resource;
+import de.turtle_exception.turtlenet.api.resource.fields.Field;
+import de.turtle_exception.turtlenet.api.resource.fields.MapField;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @SuppressWarnings("unused")
-@Resource(path = "systemMessage")
-public interface SystemMessage extends MessageEntity {
-    @Field(name = "content")
-    @NotNull FormatText getContent();
+public class SystemMessage extends MessageEntity {
+    protected static final Resource RESOURCE = new Resource(MessageEntity.RESOURCE,
+            new Field<>(FormatText.class, "content", false, false, /* TODO */ null),
+            new Field<>(String.class, "image_url", true, false, JsonSerializer.DEFAULT_STRING),
+            new MapField<>(Map.class, ConcurrentHashMap::new, String.class, String.class, "sections", false, false, JsonSerializer.DEFAULT_STRING, JsonSerializer.DEFAULT_STRING)
+    );
 
-    @Field(name = "image_url")
-    @Nullable String getImageUrl();
+    public SystemMessage(@NotNull TurtleClient client, @NotNull Resource resource, @NotNull ArrayList<Object> values) throws ResourceInheritanceException {
+        super(client, resource, values);
+    }
 
-    @Field(name = "sections")
-    @FieldMap(keyType = String.class, valueType = String.class)
-    @Reference(to = "section", nested = true)
-    @NotNull Map<String, String> getSections();
+    public final @NotNull FormatText getContent() {
+        return this.entity.get("content", FormatText.class);
+    }
+
+    public final @Nullable String getImageUrl() {
+        return this.entity.get("image_url", String.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public final @NotNull Map<String, String> getSections() {
+        return Map.copyOf(this.entity.get("sections", Map.class));
+    }
 }

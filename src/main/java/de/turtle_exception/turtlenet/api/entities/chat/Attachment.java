@@ -1,38 +1,66 @@
 package de.turtle_exception.turtlenet.api.entities.chat;
 
-import de.turtle_exception.turtlenet.api.annotations.Field;
-import de.turtle_exception.turtlenet.api.annotations.Resource;
+import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.entities.Turtle;
+import de.turtle_exception.turtlenet.api.exceptions.ResourceInheritanceException;
+import de.turtle_exception.turtlenet.api.resource.JsonSerializer;
+import de.turtle_exception.turtlenet.api.resource.Resource;
+import de.turtle_exception.turtlenet.api.resource.fields.Field;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-// TODO: should this be an extension of a new "File" entity?
+import java.util.ArrayList;
+
+// TODO: should this be an extension of an abstract "File" entity?
 @SuppressWarnings("unused")
-@Resource(path = "attachment")
-public interface Attachment extends Turtle {
-    @Field(name = "snowflake", immutable = true)
-    @Nullable Long getSnowflake();
+public class Attachment extends Turtle {
+    protected static final Resource RESOURCE = new Resource(Turtle.RESOURCE,
+            new Field<>(Long.class, "snowflake", true, true, JsonSerializer.DEFAULT_LONG),
+            new Field<>(String.class, "url", false, true, JsonSerializer.DEFAULT_STRING),
+            new Field<>(String.class, "filename", false, true, JsonSerializer.DEFAULT_STRING),
+            new Field<>(String.class, "content_type", false, true, JsonSerializer.DEFAULT_STRING),
+            new Field<>(String.class, "description", true, false, JsonSerializer.DEFAULT_STRING),
+            // TODO: could size/height/width change?
+            new Field<>(Long.class, "size", false, true, JsonSerializer.DEFAULT_LONG),
+            new Field<>(Integer.class, "height", false, true, JsonSerializer.DEFAULT_INTEGER),
+            new Field<>(Integer.class, "width", false, true, JsonSerializer.DEFAULT_INTEGER)
+    );
 
-    @Field(name = "url", immutable = true)
-    @NotNull String getUrl();
+    public Attachment(@NotNull TurtleClient client, @NotNull Resource resource, @NotNull ArrayList<Object> values) throws ResourceInheritanceException {
+        super(client, resource, values);
+    }
 
-    @Field(name = "filename", immutable = true)
-    @NotNull String getFileName();
+    public @Nullable Long getSnowflake() {
+        return this.entity.get("snowflake", Long.class);
+    }
 
-    @Field(name = "content_type", immutable = true)
-    @NotNull String getContentType();
+    public @NotNull String getUrl() {
+        return this.entity.get("url", String.class);
+    }
 
-    @Field(name = "description")
-    String getDescription();
+    public @NotNull String getFileName() {
+        return this.entity.get("filename", String.class);
+    }
 
-    @Field(name = "size", immutable = true)
-    long getSize();
+    public @NotNull String getContentType() {
+        return this.entity.get("content_type", String.class);
+    }
+
+    public String getDescription() {
+        return this.entity.get("description", String.class);
+    }
+
+    public long getSize() {
+        return this.entity.get("size", Long.class);
+    }
 
     // -1 if not an image
-    @Field(name = "height", immutable = true)
-    int getHeight();
+    public int getHeight() {
+        return this.entity.get("height", Integer.class);
+    }
 
     // -1 if not an image
-    @Field(name = "width", immutable = true)
-    int getWidth();
+    public int getWidth() {
+        return this.entity.get("width", Integer.class);
+    }
 }
