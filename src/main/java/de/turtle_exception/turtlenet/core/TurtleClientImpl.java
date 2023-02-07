@@ -5,6 +5,7 @@ import de.turtle_exception.turtlenet.api.Configuration;
 import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.TurtleClientBuilder;
 import de.turtle_exception.turtlenet.api.entities.Turtle;
+import de.turtle_exception.turtlenet.core.data.ResourceBuilder;
 import de.turtle_exception.turtlenet.core.util.TurtleSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -69,6 +70,7 @@ public class TurtleClientImpl implements TurtleClient {
 
     /** The FancyFormatter instance that will be used from all parts of the API. */
     private final FancyFormatter formatter;
+    private final ResourceBuilder resourceBuilder;
 
     /** Cache for all non-ephemeral resources. */
     private final TurtleSet<Turtle> cache = new TurtleSet<>();
@@ -84,6 +86,7 @@ public class TurtleClientImpl implements TurtleClient {
         this.jarFile = jarFile;
 
         this.formatter = new FancyFormatter();
+        this.resourceBuilder = new ResourceBuilder(this);
 
         this.logger.log(Level.INFO, "General Kenobi 0_0 (Startup done)");
     }
@@ -122,6 +125,13 @@ public class TurtleClientImpl implements TurtleClient {
     public @NotNull FancyFormatter getFormatter() {
         return this.formatter;
     }
+
+    @Override
+    public @NotNull ResourceBuilder getResourceBuilder() {
+        return this.resourceBuilder;
+    }
+
+    /* - - - */
 
     @Override
     public @NotNull Set<Turtle> getTurtles() {

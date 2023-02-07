@@ -13,6 +13,7 @@ import de.turtle_exception.turtlenet.api.entities.chat.endpoints.DiscordChannel;
 import de.turtle_exception.turtlenet.api.entities.chat.endpoints.MinecraftServer;
 import de.turtle_exception.turtlenet.api.entities.chat.endpoints.MinecraftWorld;
 import de.turtle_exception.turtlenet.api.entities.discord.DiscordServer;
+import de.turtle_exception.turtlenet.core.data.ResourceBuilder;
 import de.turtle_exception.turtlenet.core.util.logging.NestedLogger;
 import de.turtle_exception.turtlenet.core.util.logging.SimpleFormatter;
 import org.jetbrains.annotations.NotNull;
@@ -56,6 +57,9 @@ public interface TurtleClient extends TurtleContainer<Turtle> {
      * @return FancyFormatter instance.
      */
     @NotNull FancyFormatter getFormatter();
+
+    /** Returns the dedicated ResourceBuilder of this instance. The return value of this method should not change. */
+    @NotNull ResourceBuilder getResourceBuilder();
 
     /* - - - */
 

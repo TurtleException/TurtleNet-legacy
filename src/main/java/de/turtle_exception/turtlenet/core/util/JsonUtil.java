@@ -1,41 +1,31 @@
 package de.turtle_exception.turtlenet.core.util;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonNull;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.jetbrains.annotations.NotNull;
 
 public final class JsonUtil {
     private JsonUtil() { }
 
     public static void addValue(@NotNull JsonObject json, @NotNull String key, Object obj) {
-        if (obj == null)
-            json.add(key, JsonNull.INSTANCE);
-        else if (obj instanceof JsonElement objElement)
-            json.add(key, objElement);
-        else if (obj instanceof Boolean objBoolean)
-            json.addProperty(key, objBoolean);
-        else if (obj instanceof Character objCharacter)
-            json.addProperty(key, objCharacter);
-        else if (obj instanceof Number objNumber)
-            json.addProperty(key, objNumber);
-        else
-            json.addProperty(key, String.valueOf(obj));
+        json.add(key, toJson(obj));
     }
 
     public static void addValue(@NotNull JsonArray json, Object obj) {
+        json.add(toJson(obj));
+    }
+
+    public static @NotNull JsonElement toJson(Object obj) {
         if (obj == null)
-            json.add(JsonNull.INSTANCE);
+            return JsonNull.INSTANCE;
         else if (obj instanceof JsonElement objElement)
-            json.add(objElement);
+            return objElement;
         else if (obj instanceof Boolean objBoolean)
-            json.add(objBoolean);
+            return new JsonPrimitive(objBoolean);
         else if (obj instanceof Character objCharacter)
-            json.add(objCharacter);
+            return new JsonPrimitive(objCharacter);
         else if (obj instanceof Number objNumber)
-            json.add(objNumber);
+            return new JsonPrimitive(objNumber);
         else
-            json.add(String.valueOf(obj));
+            return new JsonPrimitive(String.valueOf(obj));
     }
 }

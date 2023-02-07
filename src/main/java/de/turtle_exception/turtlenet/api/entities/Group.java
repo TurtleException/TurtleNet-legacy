@@ -1,31 +1,50 @@
 package de.turtle_exception.turtlenet.api.entities;
 
-import de.turtle_exception.turtlenet.api.annotations.FieldCollection;
-import de.turtle_exception.turtlenet.api.annotations.Field;
-import de.turtle_exception.turtlenet.api.annotations.Resource;
+import de.turtle_exception.turtlenet.api.TurtleClient;
 import de.turtle_exception.turtlenet.api.entities.attributes.TurtleContainer;
+import de.turtle_exception.turtlenet.api.resource.fields.Field;
+import de.turtle_exception.turtlenet.api.resource.JsonSerializer;
+import de.turtle_exception.turtlenet.api.resource.Resource;
+import de.turtle_exception.turtlenet.api.resource.fields.CollectionField;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * A Group is a collection of {@link User Users} with collective attributes. Groups can be used to categorize Users or
  * to simplify permission handling.
  */
-@Resource(path = "groups")
 @SuppressWarnings("unused")
-public interface Group extends Turtle, TurtleContainer<User> {
+public class Group extends Turtle implements TurtleContainer<User> {
+    protected static final Resource RESOURCE = new Resource(Turtle.RESOURCE,
+            new Field<>(String.class, "name", false, false, JsonSerializer.DEFAULT_STRING),
+            new CollectionField<>(Set.class, HashSet::new, Long.class, "users", false, false, JsonSerializer.DEFAULT_LONG)
+    );
+
+    public Group(@NotNull TurtleClient client, @NotNull Resource resource, @NotNull ArrayList<Object> values) {
+        super(client, resource, values);
+    }
+
     /**
      * Provides the name of this Group. Group names are not guaranteed to be unique and rather function as a description.
      * Uniqueness can only be checked by {@link Group#getId()}.
      * @return The Group name.
      */
-    @Field(name = "name")
-    @NotNull String getName();
+    public @NotNull String getName() {
+        return this.entity.get("name", String.class);
+    }
 
     @Override
-    default @NotNull Set<User> getTurtles() {
+    public @NotNull Set<User> getTurtles() {
         return this.getUsers();
+    }
+
+    @Override
+    public @Nullable User getTurtleById(long id) {
+        return this.getClient().getTurtleById(id, User.class);
     }
 
     /**
@@ -33,11 +52,12 @@ public interface Group extends Turtle, TurtleContainer<User> {
      * <p> A Group can have multiple Users; A User can also be part of multiple Groups.
      * @return List of members.
      */
-    @Field(name = "users")
-    @FieldCollection(type = Long.class)
-    @NotNull Set<Long> getUserIds();
+    @SuppressWarnings("unchecked")
+    public @NotNull Set<Long> getUserIds() {
+        return this.entity.get("users", Set.class);
+    }
 
-    default @NotNull Set<User> getUsers() {
+    public @NotNull Set<User> getUsers() {
         return this.getClient().getTurtles(User.class, this.getUserIds());
     }
 }
