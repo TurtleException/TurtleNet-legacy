@@ -47,9 +47,9 @@ public interface TurtleContainer<T extends Turtle> {
      * @param id The unique id of the Turtle.
      * @param type The requested Turtle (mqy be {@code null}).
      * @return The requested Turtle (may be {@code null}).
-     * @param <T1> Subclass of {@code T}.
+     * @param <T1> Some class.
      */
-    default <T1 extends T> @Nullable T1 getTurtleById(long id, @NotNull Class<T1> type) {
+    default <T1> @Nullable T1 getTurtleById(long id, @NotNull Class<T1> type) {
         T turtle = this.getTurtleById(id);
         return type.isInstance(turtle) ? type.cast(turtle) : null;
     }
