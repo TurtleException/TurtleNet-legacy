@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD, ElementType.FIELD})
+@Deprecated
 public @interface Field {
     /** Name of the field. */
     @NotNull String name();

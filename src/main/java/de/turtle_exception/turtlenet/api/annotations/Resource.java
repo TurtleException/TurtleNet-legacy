@@ -14,6 +14,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
+@Deprecated
 public @interface Resource {
     /** The path (name) under which this resource should be stored. */
     @NotNull String path();
